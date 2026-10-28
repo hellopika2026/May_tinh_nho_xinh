@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Máy Tính Nhỏ Xinh</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Bảng Máy Tính Chính -->
+    <main class="calculator-card" aria-label="Máy Tính Nhỏ Xinh">
+      <header class="calc-header">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <h1>Máy Tính Nhỏ Xinh</h1>
+        </div>
+        <div id="be-status" class="status-badge checking" title="Trạng thái kết nối tới Backend API (localhost:3001)">
+          <span class="status-indicator"></span>
+          <span id="be-status-text">Đang kết nối BE...</span>
+        </div>
+      </header>
+
+      <!-- Màn hình hiển thị -->
+      <section class="display-screen">
+        <div id="expression-preview" class="expression-line" aria-live="polite">0</div>
+        <div id="result-output" class="result-line" aria-live="assertive">0</div>
+        <div id="error-message" class="error-banner" hidden></div>
+      </section>
+
+      <!-- Bàn phím nút bấm -->
+      <section class="keypad" role="group" aria-label="Bàn phím máy tính">
+        <button type="button" class="btn btn-fn" data-action="clear">AC</button>
+        <button type="button" class="btn btn-fn" data-action="backspace" title="Xóa 1 ký tự (Backspace)">⌫</button>
+        <button type="button" class="btn btn-fn" data-value="(">(</button>
+        <button type="button" class="btn btn-fn" data-value=")">)</button>
+
+        <button type="button" class="btn btn-fn" data-value="^" title="Lũy thừa">xʸ</button>
+        <button type="button" class="btn btn-fn" data-value="%" title="Chia lấy dư">%</button>
+        <button type="button" class="btn btn-fn" data-action="ans" title="Lấy kết quả vừa tính">ANS</button>
+        <button type="button" class="btn btn-op" data-value="÷">÷</button>
+
+        <button type="button" class="btn btn-num" data-value="7">7</button>
+        <button type="button" class="btn btn-num" data-value="8">8</button>
+        <button type="button" class="btn btn-num" data-value="9">9</button>
+        <button type="button" class="btn btn-op" data-value="×">×</button>
+
+        <button type="button" class="btn btn-num" data-value="4">4</button>
+        <button type="button" class="btn btn-num" data-value="5">5</button>
+        <button type="button" class="btn btn-num" data-value="6">6</button>
+        <button type="button" class="btn btn-op" data-value="-">−</button>
+
+        <button type="button" class="btn btn-num" data-value="1">1</button>
+        <button type="button" class="btn btn-num" data-value="2">2</button>
+        <button type="button" class="btn btn-num" data-value="3">3</button>
+        <button type="button" class="btn btn-op" data-value="+">+</button>
+
+        <button type="button" class="btn btn-num btn-zero" data-value="0">0</button>
+        <button type="button" class="btn btn-num" data-value=".">.</button>
+        <button type="button" class="btn btn-eq" data-action="calculate">=</button>
+      </section>
+    </main>
+
+    <!-- Bảng Lịch Sử Phép Tính từ Backend -->
+    <aside class="history-card" aria-label="Lịch sử tính toán từ Backend">
+      <div class="history-header">
+        <div>
+          <h2>Lịch sử tính toán</h2>
+          <p class="history-subtitle">Đồng bộ trực tiếp từ Backend API</p>
+        </div>
+        <button type="button" id="clear-history-btn" class="btn-clear-history" title="Xóa toàn bộ lịch sử trên BE">
+          Xóa tất cả
+        </button>
+      </div>
+
+      <ul id="history-list" class="history-list">
+        <li class="history-empty">Chưa có phép tính nào.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

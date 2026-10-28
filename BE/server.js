@@ -1,14 +1,24 @@
 /**
- * HTTP REST API Server - Máy Tính Nhỏ Xinh (BE - 007-19)
- * Cung cấp API tính toán và lưu lịch sử phép tính cho Frontend.
+ * HTTP REST API Server - Máy Tính Nhỏ Xinh (BE - 007-19 & FE Static Host - 007-18)
+ * Cung cấp API tính toán, lưu lịch sử phép tính và phục vụ giao diện Frontend tại http://localhost:3001
  */
 
 const http = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
 const { calculateBinary, evaluateExpression } = require('./calculator');
 
 const PORT = process.env.PORT || 3001;
+const FE_DIR = path.resolve(__dirname, '..', 'FE');
 const calculationHistory = [];
 const MAX_HISTORY = 50;
+
+const MIME_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+};
 
 function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
@@ -131,6 +141,17 @@ function createServer() {
       }
     }
 
+    // 5. Phục vụ trực tiếp giao diện Frontend (FE/)
+    if (req.method === 'GET' && !url.pathname.startsWith('/api/')) {
+      const relativePath = url.pathname === '/' ? 'index.html' : url.pathname.slice(1);
+      const safePath = path.normalize(path.join(FE_DIR, relativePath));
+      if (safePath.startsWith(FE_DIR) && fs.existsSync(safePath) && fs.statSync(safePath).isFile()) {
+        const ext = path.extname(safePath).toLowerCase();
+        res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+        return fs.createReadStream(safePath).pipe(res);
+      }
+    }
+
     return sendJson(res, 404, {
       success: false,
       error: `Không tìm thấy endpoint: ${req.method} ${url.pathname}`,
@@ -141,7 +162,7 @@ function createServer() {
 if (require.main === module) {
   const server = createServer();
   server.listen(PORT, () => {
-    console.log(`[BE - 007-19] Server Máy Tính Nhỏ Xinh đang chạy tại http://localhost:${PORT}`);
+    console.log(`[Fullstack] Máy Tính Nhỏ Xinh đang chạy tại http://localhost:${PORT}`);
   });
 }
 
