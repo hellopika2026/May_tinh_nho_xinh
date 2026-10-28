@@ -1,0 +1,10 @@
+{
+  "name": "may-tinh-nho-xinh-be",
+  "version": "1.0.0",
+  "description": "Backend API cho dự án Máy Tính Nhỏ Xinh (Linear Issue: 007-19)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test calculator.test.js"
+  }
+}
